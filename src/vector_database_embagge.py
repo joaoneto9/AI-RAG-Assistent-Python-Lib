@@ -1,10 +1,10 @@
 import sys
 
-from chromadb import PersistentClient
+from chromadb import Collection, PersistentClient
 import os
 import uuid
 
-def get_collection():
+def get_collection() -> Collection:
     return collection
 
 def split_themes_readme_files(text: str) -> list[str]:
@@ -41,11 +41,9 @@ def split_themes_readme_files(text: str) -> list[str]:
 client = PersistentClient(path="./vectorial_database")
 
 if len(sys.argv) < 2: # se nao tiver parametro -> pega o ja existente
-    print("pegando o collection que ja existe")
     collection = client.get_or_create_collection(name="python-lib-collection")
 else:
     try:
-        print("Recriando a collection")
         client.delete_collection(name="python-lib-collection")
     except ValueError:
         pass
