@@ -1,4 +1,5 @@
 from src.vector_database_embagge import get_collection
+import ollama
 
 database = get_collection()
 
@@ -29,5 +30,18 @@ def prompt_to_ai_assistant(question: str) -> str:
     """
 
     return prompt
+
+if __name__ == "__main__":
+    question = input()
+    prompt = prompt_to_ai_assistant(question)
+
+    response = ollama.chat(
+        model="llama3:8b-instruct-q4_K_M",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
+    
+    print(response['message']['content'])
 
 
